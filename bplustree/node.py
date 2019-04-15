@@ -169,21 +169,6 @@ class Leaf(Node):
                 break
         if flag == 0:
             self.keys.append(key)
-
-        try:
-            print("")
-            print("next leaf", self.next_leaf.keys, self.keys)
-        except:
-            None
-
-        try:
-            print("previous leaf", self.previous_leaf.keys, self.keys)
-        except:
-            None
-
-
-
-        
         if len(self.keys) >= self.degree:
             # print(self.keys, "keys\n")
             root = self.balance()
@@ -212,12 +197,9 @@ class Leaf(Node):
                 new_leaf.parent = node_p
                 return node_p
             else:
-                # print(1)
-                # print(self.keys, new_leaf.keys, self.parent.keys)
                 root = self.parent.insert(r, new_leaf)
                 return root
         else:
-            # print(7373)
             next_leaf = self.next_leaf
             for key in self.keys[index:]:
                 for i in range(len(next_leaf.keys)):
@@ -252,7 +234,6 @@ class Leaf(Node):
                         self.merge(self.next_leaf, 1)
                         p.children.remove(self.next_leaf)
                         self.next_leaf = self.next_leaf.next_leaf
-                        # print(self.next_leaf.keys, "next leaf")
                     elif (len(self.keys) + len(self.next_leaf.keys))//2 >= self.degree//2:
                         count = 0
                         while len(self.keys) < self.degree//2:
@@ -262,13 +243,10 @@ class Leaf(Node):
             elif self.previous_leaf != None:
                 if self.previous_leaf.parent == p:
                     if len(self.keys) + len(self.previous_leaf.keys) <= self.degree-1:
-                        # print("merging")
                         self.merge(self.previous_leaf, -1)
                         p.children.remove(self.previous_leaf)
                         self.previous_leaf = self.previous_leaf.previous_leaf
                         self.previous_leaf.next_leaf = self
-                        # print(self.previous_leaf.keys, "previous leaf")
-                        # print(len(p.children))
                     elif (len(self.keys) + len(self.previous_leaf.keys))//2 >= self.degree//2:
                         print(self.previous_leaf.keys)
                         count = -1
